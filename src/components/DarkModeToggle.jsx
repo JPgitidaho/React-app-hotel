@@ -4,7 +4,7 @@ function DarkModeToggle() {
   const [darkMode, setDarkMode] = useDarkMode()
 
   return (
-    <label className="relative inline-flex items-center cursor-pointer">
+    <label className="absolute top-2  left-5 inline-flex items-center cursor-pointer">
       <input
         type="checkbox"
         checked={darkMode}
