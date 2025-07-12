@@ -41,20 +41,15 @@ function Header({ stays, onFilter }) {
           alt="logo"
           className="w-auto h-6 object-contain"
         />
-        <div className="md:hidden">
+     
           <DarkModeToggle />
-        </div>
+      
       </div>
 
-      <div className="hidden md:flex items-center gap-4">
-        <DarkModeToggle />
-      </div>
 
       <div className="w-full md:w-auto mt-4 md:mt-0">
         <SearchBar
           onClick={openSearch}
-          location={searchData.location}
-          guests={getTotalGuests(searchData.guests)}
         />
       </div>
 

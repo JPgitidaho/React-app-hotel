@@ -1,10 +1,29 @@
-import { useDarkMode } from '/src/hooks/useDarkMode'
+import { useEffect, useState } from 'react'
 
-function DarkModeToggle() {
+function useDarkMode() {
+  const [enabled, setEnabled] = useState(() => {
+    return localStorage.getItem('darkMode') === 'enabled'
+  })
+
+  useEffect(() => {
+    const root = window.document.documentElement
+    if (enabled) {
+      root.classList.add('dark')
+      localStorage.setItem('darkMode', 'enabled')
+    } else {
+      root.classList.remove('dark')
+      localStorage.setItem('darkMode', 'disabled')
+    }
+  }, [enabled])
+
+  return [enabled, setEnabled]
+}
+
+export default function DarkModeToggle() {
   const [darkMode, setDarkMode] = useDarkMode()
 
   return (
-    <label className="absolute top-2  left-5 inline-flex items-center cursor-pointer">
+    <label className="inline-flex items-center cursor-pointer relative">
       <input
         type="checkbox"
         checked={darkMode}
@@ -16,5 +35,3 @@ function DarkModeToggle() {
     </label>
   )
 }
-
-export default DarkModeToggle
