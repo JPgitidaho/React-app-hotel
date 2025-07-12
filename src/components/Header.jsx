@@ -1,35 +1,37 @@
-import { useState } from "react";
-import DarkModeToggle from "./DarkModeToggle";
-import SearchBar from "./SearchBar";
-import SearchModal from "./SearchModal/SearchModal";
+import { useState } from "react"
+import DarkModeToggle from "../hooks/DarkModeToggle"
+import SearchBar from './Search/SearchBar'
+import SearchModal from './Search/SearchModal'
+
+const getTotalGuests = ({ adults, children }) => adults + children
 
 function Header({ stays, onFilter }) {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchData, setSearchData] = useState({
-    location: "",
-    guests: { adults: 1, children: 0 },
-  });
+    location: '',
+    guests: { adults: 1, children: 0 }
+  })
 
-  const openSearch = () => setIsSearchOpen(true);
-  const closeSearch = () => setIsSearchOpen(false);
+  const openSearch = () => setIsSearchOpen(true)
+  const closeSearch = () => setIsSearchOpen(false)
 
   const filterStays = (location, guests) => {
-    const totalGuests = guests.adults + guests.children;
+    const totalGuests = getTotalGuests(guests)
     const filtered = stays.filter((stay) => {
       const matchLocation = location
         ? stay.city.toLowerCase().includes(location.toLowerCase())
-        : true;
-      const enoughCapacity = stay.maxGuests >= totalGuests;
-      return matchLocation && enoughCapacity;
-    });
-    onFilter(filtered);
-  };
+        : true
+      const enoughCapacity = stay.maxGuests >= totalGuests
+      return matchLocation && enoughCapacity
+    })
+    onFilter(filtered)
+  }
 
   const handleApply = ({ location, guests }) => {
-    setSearchData({ location, guests });
-    filterStays(location, guests);
-    closeSearch();
-  };
+    setSearchData({ location, guests })
+    filterStays(location, guests)
+    closeSearch()
+  }
 
   return (
     <header className="flex flex-col md:flex-row items-start md:items-center justify-between px-4 py-4 md:py-6 max-w-screen-xl mx-auto w-full">
@@ -52,7 +54,7 @@ function Header({ stays, onFilter }) {
         <SearchBar
           onClick={openSearch}
           location={searchData.location}
-          guests={searchData.guests.adults + searchData.guests.children}
+          guests={getTotalGuests(searchData.guests)}
         />
       </div>
 
@@ -66,7 +68,7 @@ function Header({ stays, onFilter }) {
         />
       )}
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header
